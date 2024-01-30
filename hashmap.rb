@@ -5,9 +5,8 @@ class HashMap
   # To do
   attr_accessor :bucket, :load_factor, :capacity
 
-
   def initialize
-    @bucket = Array.new(16)
+    @buckets = Array.new(16) { [] }
     @load_factor = 0.75
   end
 
@@ -16,9 +15,14 @@ class HashMap
     prime_number = 31
 
     value.each_char { |c| hash_code = prime_number * hash_code + c.ord }
-    @bucket.push(hash_code)
+    p hash_code % @buckets.size
   end
 
+  def set(key, value)
+    index = hash(key)
+    @buckets[index].insert(key, value)
+    p @buckets
+  end
   #set takes two arguments, the first is a key and the second is a value that is assigned to this key. 
   # If a key already exists, then the old value is overwritten.
   # Remember to grow your buckets size when it needs to, by calculating if your bucket has reached the load factor.
@@ -43,3 +47,5 @@ class HashMap
   # Example: [[first_key, first_value], [second_key, second_value]]
 
 end
+a = HashMap.new
+a.set('name', 'John')
